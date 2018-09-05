@@ -3,6 +3,7 @@ module.exports = {
   extends: 'flickr',
 
   env: {
+    es6: true,
     node: true
   },
 

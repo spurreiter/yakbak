@@ -1,13 +1,17 @@
-# yakbak
+# yakbak-native-promise
+
+> Fork from [yakbak](https://github.com/flickr/yakbak) which uses native Promises instead of `bluebird` library
 
 Record HTTP interactions The Node Way™. Inspired by ruby's [vcr][1].
 
+<!--
 > [![Build Status](https://travis-ci.org/flickr/yakbak.svg?branch=master)](https://travis-ci.org/flickr/yakbak)
+-->
 
 ## install
 
 ``` bash
-$ npm install yakbak --save-dev
+$ npm install yakbak-native-promise --save-dev
 ```
 ## usage
 
@@ -41,7 +45,7 @@ yakbak provides a handler with the same signature that `http.Server` expects so 
 
 ``` js
 var http = require('http');
-var yakbak = require('yakbak');
+var yakbak = require('yakbak-native-promise');
 
 http.createServer(yakbak('http://api.flickr.com', {
 	dirname: __dirname + '/tapes'
@@ -56,7 +60,7 @@ Need more flexibility? [express](https://github.com/expressjs/express) expects t
 
 ``` js
 var express = require('express');
-var yakbak = require('yakbak');
+var yakbak = require('yakbak-native-promise');
 
 var flickr = yakbak('http://api.flickr.com', {
 	dirname: __dirname + '/tapes'

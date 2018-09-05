@@ -1,5 +1,5 @@
 {
-  "name": "yakbak",
+  "name": "yakbak-native-promise",
   "version": "3.0.0",
   "description": "Record and playback HTTP responses",
   "main": "index.js",
@@ -33,7 +33,6 @@
     "supertest": "~0.15.0"
   },
   "dependencies": {
-    "bluebird": "~3.3.4",
     "debug": "^3.1.0",
     "ejs": "^2.5.5",
     "incoming-message-hash": "~3.2.1",

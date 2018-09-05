@@ -1,7 +1,6 @@
 // Copyright 2016 Yahoo Inc.
 // Licensed under the terms of the MIT license. Please see LICENSE file in the project root for terms.
 
-var Promise = require('bluebird');
 var messageHash = require('incoming-message-hash');
 var assert = require('assert');
 var mkdirp = require('mkdirp');
@@ -32,10 +31,9 @@ module.exports = function (host, opts) {
     return buffer(req).then(function (body) {
       var file = path.join(opts.dirname, tapename(req, body));
 
-      return Promise.try(function () {
+      try {
         return require.resolve(file);
-      }).catch(ModuleNotFoundError, function (/* err */) {
-
+      } catch (e) {
         if (opts.noRecord) {
           throw new RecordingDisabledError('Recording Disabled');
         } else {
@@ -43,13 +41,12 @@ module.exports = function (host, opts) {
             return record(pres.req, pres, file);
           });
         }
-
-      });
+      }
     }).then(function (file) {
       return require(file);
     }).then(function (tape) {
       return tape(req, res);
-    }).catch(RecordingDisabledError, function (err) {
+    }).catch(function (err) {
       /* eslint-disable no-console */
       console.log('An HTTP request has been made that yakbak does not know how to handle');
       console.log(curl.request(req));
@@ -74,16 +71,6 @@ module.exports = function (host, opts) {
   }
 
 };
-
-/**
- * Bluebird error predicate for matching module not found errors.
- * @param {Error} err
- * @returns {Boolean}
- */
-
-function ModuleNotFoundError(err) {
-  return err.code === 'MODULE_NOT_FOUND';
-}
 
 /**
  * Error class that is thrown when an unmatched request
