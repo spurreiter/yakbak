@@ -2,27 +2,43 @@
   "name": "yakbak-native-promise",
   "version": "3.0.0",
   "description": "Record and playback HTTP responses",
+  "keywords": [
+    "http",
+    "https",
+    "mock",
+    "playback",
+    "record",
+    "service",
+    "vcr"
+  ],
+  "homepage": "https://github.com/spurreiter/yakbak-native-promise#readme",
+  "bugs": {
+    "url": "https://github.com/spurreiter/yakbak-native-promise/issues"
+  },
+  "license": "MIT",
+  "author": "Jeremy Ruppel",
   "main": "index.js",
+  "bin": {
+    "yakbak-native-promise": "./cli.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spurreiter/yakbak-native-promise.git"
+  },
   "scripts": {
     "lint": "eslint cli.js index.js lib test",
     "test": "mocha"
   },
-  "keywords": [
-    "http",
-    "https",
-    "record",
-    "playback",
-    "mock",
-    "service",
-    "vcr"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:flickr/yakbak.git"
+  "dependencies": {
+    "debug": "^3.1.0",
+    "ejs": "^2.5.5",
+    "incoming-message-hash": "~3.2.1",
+    "mkdirp": "~0.5.0"
   },
-  "bin": "./cli.js",
-  "author": "Jeremy Ruppel",
-  "license": "MIT",
   "devDependencies": {
     "eslint": "^2.9.0",
     "eslint-config-flickr": "~1.1.7",
@@ -31,11 +47,5 @@
     "rimraf": "^2.5.2",
     "semver": "^5.1.0",
     "supertest": "~0.15.0"
-  },
-  "dependencies": {
-    "debug": "^3.1.0",
-    "ejs": "^2.5.5",
-    "incoming-message-hash": "~3.2.1",
-    "mkdirp": "~0.5.0"
   }
 }
