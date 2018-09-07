@@ -17,7 +17,7 @@ var debug = require('debug')('yakbak:server');
  * @param {Object} opts
  * @param {String} opts.dirname The tapes directory
  * @param {Boolean} opts.noRecord if true, requests will return a 404 error if the tape doesn't exist
- * @param {Boolean} opts.delay add a delay bewteen recording and require
+ * @param {Boolean} opts.delay add a delay between recording and require
  * @returns {Function}
  */
 
