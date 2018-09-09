@@ -4,6 +4,14 @@
 
 Record HTTP interactions The Node Way™. Inspired by ruby's [vcr][1].
 
+Differences to original [yakbak](https://github.com/flickr/yakbak):
+
+- uses native Promises instead of `bluebird`
+- different tape file loading, no server restart required if tapes got deleted
+- record tapes in human readable form
+- fixes `/*/` in pathnames
+- comes bundled with custom hash function. See [options](#options)
+
 <!--
 > [![Build Status](https://travis-ci.org/flickr/yakbak.svg?branch=master)](https://travis-ci.org/flickr/yakbak)
 -->
@@ -29,7 +37,7 @@ Returns a function of the signature `function (req, res)` that you can give to a
 
 ``` js
 var handler = yakbak('http://api.flickr.com', {
-	dirname: __dirname + '/tapes'
+  dirname: __dirname + '/tapes'
 });
 ```
 
@@ -38,6 +46,23 @@ var handler = yakbak('http://api.flickr.com', {
 - `dirname` the path where recorded responses will be written (required).
 - `noRecord` if true, requests will return a 404 error if the tape doesn't exist
 - `hash(req, body)` provide your own IncomingMessage hash function
+- `humanReadable` record tapes in human readable form if possible; default is `true`
+
+Usage of custom hash function:
+
+```js
+const customHash = require('yakbak-native-promise/hash')
+yakbak(host, {
+  dirname: `${__dirname}/tapes`,
+  hash: customHash({
+    noHttpVersion: true, // ignore httpVersion
+    headers: ['authorization', 'cookie'] // only use `authorization` and `cookie` header for hash
+    cookies: ['uid'] // only use cookie `uid`
+    // noHeaders: [], // omit headers - use either cookies or noheaders
+    // noCookies: [''] // omit cookies - use either cookies or noCookies
+  })
+})
+```
 
 ### with node's http module
 
@@ -48,7 +73,7 @@ var http = require('http');
 var yakbak = require('yakbak-native-promise');
 
 http.createServer(yakbak('http://api.flickr.com', {
-	dirname: __dirname + '/tapes'
+  dirname: __dirname + '/tapes'
 })).listen(3000);
 ```
 
@@ -63,19 +88,19 @@ var express = require('express');
 var yakbak = require('yakbak-native-promise');
 
 var flickr = yakbak('http://api.flickr.com', {
-	dirname: __dirname + '/tapes'
+  dirname: __dirname + '/tapes'
 });
 
 var upload = yakbak('http://up.flickr.com', {
-	dirname: __dirname + '/tapes'
+  dirname: __dirname + '/tapes'
 });
 
 express().use(function (req, res, next) {
-	if (req.path.indexOf('/services/upload') === 0) {
-	  upload(req, res);
-	} else {
-	  flickr(req, res);
-	}
+  if (req.path.indexOf('/services/upload') === 0) {
+    upload(req, res);
+  } else {
+    flickr(req, res);
+  }
 }).listen(3000);
 ```
 
