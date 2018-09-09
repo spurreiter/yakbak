@@ -34,9 +34,11 @@ describe('record', function () {
   beforeEach(function () {
     req = http.request({
       host: server.addr,
-      port: server.port
+      port: server.port,
+      path: '/test/*/test'
     });
     req.setHeader('User-Agent', 'My User Agent/1.0');
+    req.setHeader('x-escape-comments', '*//*');
     req.setHeader('Connection', 'close');
   });
 

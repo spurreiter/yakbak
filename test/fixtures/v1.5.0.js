@@ -1,10 +1,11 @@
 var path = require("path");
 
 /**
- * GET /
+ * GET /test/ * /test
  *
  * host: {addr}:{port}
  * user-agent: My User Agent/1.0
+ * x-escape-comments: * // *
  * connection: close
  */
 
