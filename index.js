@@ -39,16 +39,10 @@ module.exports = function (host, opts) {
           throw new RecordingDisabledError('Recording Disabled');
         } else {
           return proxy(req, body, host).then(function (pres) {
-            return record(pres.req, pres, file);
+            return record(pres.req, pres, file, opts);
           });
         }
       }
-    }).then(function (file) {
-      return !opts.delay
-        ? file
-        : new Promise((resolve) => {
-          setTimeout(() => resolve(file), opts.delay);
-        });
     }).then(function (file) {
       return require(file);
     }).then(function (tape) {
