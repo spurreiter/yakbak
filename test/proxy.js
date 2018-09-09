@@ -41,9 +41,9 @@ describe('proxy', function () {
 
   it('proxies the request body', function (done) {
     var body = [
-      new Buffer('a'),
-      new Buffer('b'),
-      new Buffer('c')
+      Buffer.from('a'),
+      Buffer.from('b'),
+      Buffer.from('c')
     ];
 
     server.once('request', function (_req) {

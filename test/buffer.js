@@ -14,9 +14,9 @@ describe('buffer', function () {
 
     subject(str).then(function (body) {
       assert.deepEqual(body, [
-        new Buffer('a'),
-        new Buffer('b'),
-        new Buffer('c')
+        Buffer.from('a'),
+        Buffer.from('b'),
+        Buffer.from('c')
       ]);
       done();
     }).catch(function (err) {
