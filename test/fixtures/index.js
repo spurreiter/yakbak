@@ -12,4 +12,7 @@ function read(file) {
  * node >= 1.5.0 sends the content-length whenever possible
  * @see https://github.com/nodejs/node/pull/1062
  */
-module.exports = read('v1.5.0');
+module.exports = {
+  base64: read('base64'),
+  humanReadable: read('humanReadable')
+}

@@ -1,8 +1,5 @@
 var path = require("path");
 
-<%_ function escapeComments(str) {
-  return str.replace('/*', '/ *').replace('*/', '* /')
-} _%>
 /**
  * <%- req.method %> <%- escapeComments(decodeURIComponent(req.path)) %>
  *
@@ -21,7 +18,7 @@ module.exports = function (req, res) {
   res.setHeader("x-yakbak-tape", path.basename(__filename, ".js"));
 
 <% body.forEach(function (data) { -%>
-  res.write(Buffer.from(<%- JSON.stringify(data.toString('base64')) %>, "base64"));
+  res.write(Buffer.from(<%- JSON.stringify(data.toString(bodyEncoding)) %>, "<%- bodyEncoding %>"));
 <% }); -%>
   res.end();
 

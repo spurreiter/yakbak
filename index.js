@@ -19,6 +19,7 @@ var debug = require('debug')('yakbak:server');
  * @param {String} opts.dirname The tapes directory
  * @param {Boolean} opts.noRecord if true, requests will return a 404 error if the tape doesn't exist
  * @param {Boolean} opts.delay add a delay between recording and require
+ * @param {Boolean} [opts.humanReadable=true] record tapes in human readable form if possible
  * @returns {Function}
  */
 
@@ -47,7 +48,7 @@ module.exports = function (host, opts) {
       return tape(req, res);
     }).catch(function (err) {
       /* eslint-disable no-console */
-      console.log('An HTTP request has been made that yakbak does not know how to handle %s', err);
+      console.log('An HTTP request has been made that yakbak does not know how to handle "%s"', err);
       console.log(curl.request(req));
       /* eslint-enable no-console */
       res.statusCode = err.status;

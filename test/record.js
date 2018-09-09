@@ -10,7 +10,7 @@ var assert = require('assert');
 var http = require('http');
 var fs = require('fs');
 
-var fixture = require('./fixtures');
+var fixtures = require('./fixtures');
 
 describe('record', function () {
   var server, tmpdir, req;
@@ -57,10 +57,28 @@ describe('record', function () {
   });
 
   it('records the response to disk', function (done) {
-    var expected = fixture.replace('{addr}', server.addr).replace('{port}', server.port);
+    const expected = fixtures.base64.replace('{addr}', server.addr).replace('{port}', server.port);
 
     req.on('response', function (res) {
       const filename = tmpdir.join('foo.js')
+
+      subject(req, res, filename, {humanReadable: false}).then(() => {
+        assert.equal(fs.readFileSync(filename, 'utf8'), expected);
+        done();
+      }).catch(function (err) {
+        done(err);
+      });
+    });
+
+    req.end();
+  });
+
+
+  it('records the response to disk in human readable format', function (done) {
+    const expected = fixtures.humanReadable.replace('{addr}', server.addr).replace('{port}', server.port);
+
+    req.on('response', function (res) {
+      const filename = tmpdir.join('human.js')
 
       subject(req, res, filename).then(() => {
         assert.equal(fs.readFileSync(filename, 'utf8'), expected);
@@ -72,5 +90,4 @@ describe('record', function () {
 
     req.end();
   });
-
 });
