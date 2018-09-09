@@ -40,10 +40,11 @@ describe('record', function () {
     req.setHeader('Connection', 'close');
   });
 
-  it('returns the filename', function (done) {
+  it('returns the rendered ejs data', function (done) {
     req.on('response', function (res) {
-      subject(req, res, tmpdir.join('foo.js')).then(function (filename) {
-        assert.equal(filename, tmpdir.join('foo.js'));
+      subject(req, res, tmpdir.join('foo.js')).then(function (data) {
+        assert.equal(typeof data, 'string')
+        assert.ok(/module.exports = /.test(data))
         done();
       }).catch(function (err) {
         done(err);
@@ -57,7 +58,9 @@ describe('record', function () {
     var expected = fixture.replace('{addr}', server.addr).replace('{port}', server.port);
 
     req.on('response', function (res) {
-      subject(req, res, tmpdir.join('foo.js')).then(function (filename) {
+      const filename = tmpdir.join('foo.js')
+
+      subject(req, res, filename).then(() => {
         assert.equal(fs.readFileSync(filename, 'utf8'), expected);
         done();
       }).catch(function (err) {

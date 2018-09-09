@@ -8,6 +8,7 @@ var path = require('path');
 var buffer = require('./lib/buffer');
 var proxy = require('./lib/proxy');
 var record = require('./lib/record');
+var load = require('./lib/load');
 var curl = require('./lib/curl');
 var debug = require('debug')('yakbak:server');
 
@@ -32,19 +33,16 @@ module.exports = function (host, opts) {
     return buffer(req).then(function (body) {
       var file = path.join(opts.dirname, tapename(req, body));
 
-      try {
-        return require.resolve(file);
-      } catch (e) {
-        if (opts.noRecord) {
-          throw new RecordingDisabledError('Recording Disabled');
-        } else {
-          return proxy(req, body, host).then(function (pres) {
-            return record(pres.req, pres, file, opts);
-          });
-        }
-      }
-    }).then(function (file) {
-      return require(file);
+      return load(file)
+        .catch(() => {
+          if (opts.noRecord) {
+            throw new RecordingDisabledError('Recording Disabled');
+          } else {
+            return proxy(req, body, host)
+              .then((pres) => record(pres.req, pres, file, opts))
+              .then((data) => load(file, data))
+          }
+        })
     }).then(function (tape) {
       return tape(req, res);
     }).catch(function (err) {

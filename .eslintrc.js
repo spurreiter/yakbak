@@ -9,7 +9,8 @@ module.exports = {
 
   rules: {
     // i don't really mind this one
-    'no-use-before-define': 'off'
+    'no-use-before-define': 'off',
+    'semi': 'off'
   }
 
 };
