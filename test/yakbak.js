@@ -41,7 +41,7 @@ describe('yakbak', function () {
         request(yakbak)
         .get('/record/1')
         .set('host', 'localhost:3001')
-        .expect('X-Yakbak-Tape', '1a574e91da6cf00ac18bc97abaed139e')
+        .expect('X-Yakbak-Tape', '0aec39cb69f34888e40ffae3b28dd012')
         .expect('Content-Type', 'text/html')
         .expect(201, 'OK')
         .end(function (err) {
@@ -55,12 +55,12 @@ describe('yakbak', function () {
         request(yakbak)
         .get('/record/2')
         .set('host', 'localhost:3001')
-        .expect('X-Yakbak-Tape', '3234ee470c8605a1837e08f218494326')
+        .expect('X-Yakbak-Tape', '430594ed82343510c5670eba378a87df')
         .expect('Content-Type', 'text/html')
         .expect(201, 'OK')
         .end(function (err) {
           assert.ifError(err);
-          assert(fs.existsSync(tmpdir.join('3234ee470c8605a1837e08f218494326.js')));
+          assert(fs.existsSync(tmpdir.join('430594ed82343510c5670eba378a87df.js')));
           done();
         });
       });
@@ -143,7 +143,7 @@ describe('yakbak', function () {
     });
 
     beforeEach(function (done) {
-      var file = '305c77b0a3ad7632e51c717408d8be0f.js';
+      var file = '6b25ffd68922f5faeb9d97dc83ea8eb0.js';
       var tape = [
         'var path = require("path");',
         'module.exports = function (req, res) {',
@@ -162,7 +162,7 @@ describe('yakbak', function () {
       request(yakbak)
       .get('/playback/1')
       .set('host', 'localhost:3001')
-      .expect('X-Yakbak-Tape', '305c77b0a3ad7632e51c717408d8be0f')
+      .expect('X-Yakbak-Tape', '6b25ffd68922f5faeb9d97dc83ea8eb0')
       .expect('Content-Type', 'text/html')
       .expect(201, 'YAY')
       .end(function (err) {
